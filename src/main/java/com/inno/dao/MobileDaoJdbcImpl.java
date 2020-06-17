@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @EJB
@@ -80,36 +79,6 @@ public class MobileDaoJdbcImpl implements MobileDao {
     return null;
   }
 
-  @Override
-  public boolean updateMobileById(Mobile mobile) {
-
-    try (Connection connection = connectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_MOBILE)) {
-      preparedStatement.setString(1, mobile.getModel());
-      preparedStatement.setInt(2, mobile.getPrice());
-      preparedStatement.setString(3, mobile.getManufacturer());
-      preparedStatement.setInt(4, mobile.getId());
-      preparedStatement.execute();
-      return true;
-    } catch (SQLException e) {
-      LOGGER.error("Some thing wrong in updateMobileById method", e);
-    }
-    return false;
-  }
-
-  @Override
-  public boolean deleteMobileById(Integer id) {
-    try (Connection connection = connectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FROM_MOBILE)) {
-      preparedStatement.setInt(1, id);
-      preparedStatement.execute();
-    } catch (SQLException e) {
-      LOGGER.error("Some thing wrong in deleteMobileById method", e);
-      return false;
-    }
-    return true;
-  }
-
   @Override public void createTable() {
     try (Connection connection = connectionManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(CREATE_TABLE_MOBILE)) {
@@ -119,7 +88,7 @@ public class MobileDaoJdbcImpl implements MobileDao {
     }
   }
 
-  @Override public Collection<Mobile> getAllMobile() {
+  @Override public List<Mobile> getAllMobile() {
     List<Mobile> lstmb = new ArrayList<>();
     try (Connection connection = connectionManager.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_MOBILE);

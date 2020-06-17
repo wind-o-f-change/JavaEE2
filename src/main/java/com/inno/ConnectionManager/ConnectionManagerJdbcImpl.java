@@ -11,17 +11,6 @@ import java.sql.SQLException;
 @EJB
 public class ConnectionManagerJdbcImpl implements ConnectionManager {
   private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManagerJdbcImpl.class);
-  private static ConnectionManager connectionManager;
-
-  private ConnectionManagerJdbcImpl() {
-  }
-
-  public static ConnectionManager getInstance() {
-    if (connectionManager == null) {
-      connectionManager = new ConnectionManagerJdbcImpl();
-    }
-    return connectionManager;
-  }
 
   @Override
   public Connection getConnection() {
@@ -29,16 +18,13 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
     try {
       Class.forName("org.postgresql.Driver");
       connection = DriverManager.getConnection(
-          "jdbc:postgresql://host.docker.internal:5433/mobile",
-          "postgres",
-          "qwerty");
-    } catch (ClassNotFoundException | SQLException e) {
+              //"jdbc:postgresql://host.docker.internal:5433/jdbcDB",
+              "jdbc:postgresql://host.docker.internal:5433/jdbcDB",
+              "postgres",
+              "qwerty");
+    } catch (SQLException | ClassNotFoundException e) {
       LOGGER.error("Some thing wrong in getConnection method", e);
     }
     return connection;
-  }
-
-  @Override public int get15() {
-    return 15;
   }
 }

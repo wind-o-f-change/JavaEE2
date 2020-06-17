@@ -30,10 +30,16 @@ public class ShowMobileServlet extends HttpServlet {
         Mobile mobile = mobileDao.getMobileById(Integer.valueOf(mobileId));
         if (mobile == null) {
             resp.setStatus(404);
-            req.getRequestDispatcher("/notfound.jsp").forward(req, resp);
+            req.setAttribute("PageTitle", "Mobiles");
+            req.setAttribute("PageBody", "notfound.jsp");
+            req.getRequestDispatcher("/layout.jsp")
+                    .forward(req, resp);
             return;
         }
         req.setAttribute("mobile", mobile);
-        req.getRequestDispatcher("/showmobile.jsp").forward(req, resp);
+        req.setAttribute("PageTitle", "Mobiles");
+        req.setAttribute("PageBody", "showmobile.jsp");
+        req.getRequestDispatcher("/layout.jsp")
+                .forward(req, resp);
     }
 }
